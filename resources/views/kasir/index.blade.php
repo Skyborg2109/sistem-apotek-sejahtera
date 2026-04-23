@@ -159,65 +159,7 @@
               </div>
             </div>
 
-            <!-- Detail Pembayaran Khusus -->
-            <div id="payment-details-container" class="mb-6 hidden">
-                <!-- QRIS Detail -->
-                <div id="detail-qris" class="hidden animate-[fade-in_0.3s_ease-out]">
-                    <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-4 flex flex-col items-center text-center">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Scan QRIS Untuk Bayar</p>
-                        <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 mb-3">
-                            <img src="{{ asset('qris_mockup.png') }}" alt="QRIS QR Code" class="w-32 h-32 object-contain">
-                        </div>
-                        <p class="text-xs font-semibold text-slate-500">Apotek Sejahtera - Merchant ID: 1029384</p>
-                    </div>
-                </div>
 
-                <!-- Transfer Detail -->
-                <div id="detail-transfer" class="hidden animate-[fade-in_0.3s_ease-out]">
-                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4">
-                        <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-3">Rekening Pembayaran</p>
-                        <div class="space-y-2">
-                            <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-blue-100">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-5 bg-blue-600 rounded flex items-center justify-center text-[8px] text-white font-bold">BCA</div>
-                                    <span class="text-xs font-bold text-slate-700">1234567890</span>
-                                </div>
-                                <button class="text-[10px] font-bold text-blue-600 hover:bg-blue-50 px-2 py-1 rounded">Salin</button>
-                            </div>
-                            <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-blue-100">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-5 bg-emerald-600 rounded flex items-center justify-center text-[8px] text-white font-bold">BNI</div>
-                                    <span class="text-xs font-bold text-slate-700">0987654321</span>
-                                </div>
-                                <button class="text-[10px] font-bold text-blue-600 hover:bg-blue-50 px-2 py-1 rounded">Salin</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Debit Detail -->
-                <div id="detail-debit" class="hidden animate-[fade-in_0.3s_ease-out]">
-                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Informasi Kartu</p>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Pilih Mesin EDC</label>
-                                <select class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-emerald-500">
-                                    <option>BCA EDC - 01</option>
-                                    <option>MANDIRI EDC - 02</option>
-                                    <option>BRI EDC - 03</option>
-                                </select>
-                            </div>
-                            <div class="flex gap-2">
-                                <div class="flex-1">
-                                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">No. Reff / Trace</label>
-                                    <input type="text" placeholder="000000" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-emerald-500">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Bayar</p>
             <h2 id="total-val" class="text-4xl font-black text-slate-800 tracking-tight leading-none mb-4">Rp 0</h2>
@@ -383,6 +325,92 @@
         <button class="py-2.5 text-sm font-bold text-white bg-emerald-500 border border-emerald-500 rounded-xl hover:bg-emerald-600 shadow-md shadow-emerald-500/20 transition-colors flex items-center justify-center gap-1">
           <i class="ph ph-printer"></i> Cetak Struk
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL PEMBAYARAN NON-TUNAI -->
+  <div id="modal-pembayaran-detail" class="fixed inset-0 z-50 hidden flex items-center justify-center px-4">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+    <div class="bg-white rounded-[2.5rem] w-full max-w-md relative z-10 p-8 transform scale-95 opacity-0 transition-all duration-300 shadow-2xl" id="modal-pembayaran-detail-content">
+      <div class="text-center mb-6">
+        <div id="icon-pembayaran-modal" class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <i class="ph-fill ph-qr-code text-4xl"></i>
+        </div>
+        <h3 class="text-2xl font-black text-slate-800 tracking-tight" id="title-pembayaran-modal">Detail Pembayaran</h3>
+        <p class="text-sm text-slate-500 mt-1" id="subtitle-pembayaran-modal">Selesaikan pembayaran sesuai instruksi di bawah.</p>
+      </div>
+
+      <div id="modal-payment-info-container">
+          <!-- QRIS Detail -->
+          <div id="modal-detail-qris" class="hidden">
+              <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center text-center">
+                  <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Scan QRIS Untuk Bayar</p>
+                  <div class="bg-white p-4 rounded-3xl shadow-md border border-slate-100 mb-4">
+                      <img src="{{ asset('qris_mockup.png') }}" alt="QRIS QR Code" class="w-48 h-48 object-contain">
+                  </div>
+                  <p class="text-xs font-bold text-slate-500">Merchant: <span class="text-slate-800">Apotek Sejahtera</span></p>
+                  <p class="text-[10px] text-slate-400">NMID: ID102938475657</p>
+              </div>
+          </div>
+
+          <!-- Transfer Detail -->
+          <div id="modal-detail-transfer" class="hidden">
+              <div class="bg-blue-50 border border-blue-100 rounded-3xl p-6">
+                  <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-4">Rekening Tujuan</p>
+                  <div class="space-y-3">
+                      <div class="bg-white p-4 rounded-2xl border border-blue-100 flex items-center justify-between group">
+                          <div class="flex items-center gap-3">
+                              <div class="w-12 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-xs text-white font-black">BCA</div>
+                              <div>
+                                  <p class="text-sm font-black text-slate-800">1234567890</p>
+                                  <p class="text-[10px] text-slate-400 font-bold uppercase">A.N. APOTEK SEJATEREA</p>
+                              </div>
+                          </div>
+                          <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"><i class="ph-bold ph-copy"></i></button>
+                      </div>
+                      <div class="bg-white p-4 rounded-2xl border border-blue-100 flex items-center justify-between group">
+                          <div class="flex items-center gap-3">
+                              <div class="w-12 h-8 bg-emerald-600 rounded-lg flex items-center justify-center text-xs text-white font-black">BNI</div>
+                              <div>
+                                  <p class="text-sm font-black text-slate-800">0987654321</p>
+                                  <p class="text-[10px] text-slate-400 font-bold uppercase">A.N. APOTEK SEJATEREA</p>
+                              </div>
+                          </div>
+                          <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"><i class="ph-bold ph-copy"></i></button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Debit Detail -->
+          <div id="modal-detail-debit" class="hidden">
+              <div class="bg-slate-50 border border-slate-200 rounded-3xl p-6">
+                  <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-4">Informasi Mesin EDC</p>
+                  <div class="space-y-4">
+                      <div>
+                          <label class="text-[10px] font-bold text-slate-400 uppercase mb-1.5 block ml-1">Pilih Mesin EDC</label>
+                          <select class="w-full bg-white border-2 border-slate-100 rounded-2xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-emerald-500 transition-all">
+                              <option>BCA EDC - POS-01</option>
+                              <option>MANDIRI EDC - POS-01</option>
+                              <option>BRI EDC - POS-01</option>
+                          </select>
+                      </div>
+                      <div>
+                          <label class="text-[10px] font-bold text-slate-400 uppercase mb-1.5 block ml-1">No. Reff / Trace ID</label>
+                          <input type="text" placeholder="Masukkan 6 digit angka..." class="w-full bg-white border-2 border-slate-100 rounded-2xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-emerald-500 transition-all">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="mt-8 flex flex-col gap-3">
+          <button id="btn-konfirmasi-pembayaran" class="w-full py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-2xl shadow-lg shadow-emerald-500/30 transition-all click-pop flex items-center justify-center gap-2">
+            <span>Konfirmasi & Lanjutkan</span>
+            <i class="ph ph-arrow-right font-bold"></i>
+          </button>
+          <button id="btn-batal-pembayaran" class="w-full py-3 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors">Ganti Metode</button>
       </div>
     </div>
   </div>
@@ -646,10 +674,56 @@
     // Payment Method Selection
     let selectedPaymentMethod = 'Tunai';
     const payMethodBtns = document.querySelectorAll('.pay-method-btn');
-    const paymentDetailsContainer = document.getElementById('payment-details-container');
-    const detailQris = document.getElementById('detail-qris');
-    const detailTransfer = document.getElementById('detail-transfer');
-    const detailDebit = document.getElementById('detail-debit');
+    const modalPaymentDetail = document.getElementById('modal-pembayaran-detail');
+    const modalPaymentContent = document.getElementById('modal-pembayaran-detail-content');
+    const modalInfoQris = document.getElementById('modal-detail-qris');
+    const modalInfoTransfer = document.getElementById('modal-detail-transfer');
+    const modalInfoDebit = document.getElementById('modal-detail-debit');
+    const modalTitle = document.getElementById('title-pembayaran-modal');
+    const modalIcon = document.getElementById('icon-pembayaran-modal');
+
+    function openPaymentModal(method) {
+        // Reset all
+        modalInfoQris.classList.add('hidden');
+        modalInfoTransfer.classList.add('hidden');
+        modalInfoDebit.classList.add('hidden');
+        
+        if (method === 'QRIS') {
+            modalTitle.innerText = 'Bayar via QRIS';
+            modalIcon.innerHTML = '<i class="ph-fill ph-qr-code text-4xl"></i>';
+            modalIcon.className = 'w-20 h-20 bg-emerald-100 text-emerald-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-sm';
+            modalInfoQris.classList.remove('hidden');
+        } else if (method === 'Transfer Bank') {
+            modalTitle.innerText = 'Transfer Bank';
+            modalIcon.innerHTML = '<i class="ph-fill ph-bank text-4xl"></i>';
+            modalIcon.className = 'w-20 h-20 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-sm';
+            modalInfoTransfer.classList.remove('hidden');
+        } else if (method === 'Kartu Debit') {
+            modalTitle.innerText = 'Kartu Debit';
+            modalIcon.innerHTML = '<i class="ph-fill ph-credit-card text-4xl"></i>';
+            modalIcon.className = 'w-20 h-20 bg-slate-100 text-slate-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-sm';
+            modalInfoDebit.classList.remove('hidden');
+        }
+
+        modalPaymentDetail.classList.remove('hidden');
+        setTimeout(() => {
+            modalPaymentContent.classList.replace('scale-95', 'scale-100');
+            modalPaymentContent.classList.replace('opacity-0', 'opacity-100');
+        }, 10);
+    }
+
+    function closePaymentModal() {
+        modalPaymentContent.classList.replace('scale-100', 'scale-95');
+        modalPaymentContent.classList.replace('opacity-100', 'opacity-0');
+        setTimeout(() => modalPaymentDetail.classList.add('hidden'), 300);
+    }
+
+    document.getElementById('btn-konfirmasi-pembayaran').addEventListener('click', closePaymentModal);
+    document.getElementById('btn-batal-pembayaran').addEventListener('click', () => {
+        closePaymentModal();
+        // Reset to Tunai
+        payMethodBtns[0].click();
+    });
 
     payMethodBtns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -661,22 +735,17 @@
         btn.classList.remove('border-slate-100', 'bg-slate-50', 'text-slate-500');
         selectedPaymentMethod = btn.dataset.method;
 
-        // Reset details
-        paymentDetailsContainer.classList.add('hidden');
-        detailQris.classList.add('hidden');
-        detailTransfer.classList.add('hidden');
-        detailDebit.classList.add('hidden');
-
-        // Show specific detail & handle auto-fill bayar
+        // Handle non-cash modal
         if (selectedPaymentMethod !== 'Tunai') {
-          paymentDetailsContainer.classList.remove('hidden');
-          inputBayar.value = currentTotal; // Auto-fill total for non-cash
+          if (currentTotal <= 0) {
+              alert('Pilih obat terlebih dahulu!');
+              payMethodBtns[0].click();
+              return;
+          }
+          openPaymentModal(selectedPaymentMethod);
+          inputBayar.value = currentTotal;
           inputBayar.readOnly = true;
           inputBayar.classList.add('opacity-50');
-          
-          if (selectedPaymentMethod === 'QRIS') detailQris.classList.remove('hidden');
-          if (selectedPaymentMethod === 'Transfer Bank') detailTransfer.classList.remove('hidden');
-          if (selectedPaymentMethod === 'Kartu Debit') detailDebit.classList.remove('hidden');
         } else {
           inputBayar.value = '';
           inputBayar.readOnly = false;
