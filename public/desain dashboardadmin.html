@@ -1,0 +1,2400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Apotek Sejahtera</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Custom Styles for Scrollbar -->
+  <style>
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+
+  <script>
+    // Konfigurasi Tailwind (Opsional, untuk warna custom jika diperlukan)
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="flex h-screen bg-slate-50 font-sans text-slate-800 overflow-hidden">
+
+  <!-- SIDEBAR -->
+  <aside class="w-72 bg-white border-r border-slate-200 flex-col hidden md:flex z-10 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+    <!-- Logo Area -->
+    <div class="h-20 flex items-center px-8 border-b border-slate-100 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center shadow-sm shadow-emerald-200">
+          <i class="ph ph-activity text-white text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-800 tracking-tight leading-none">Apotek</h1>
+          <p class="text-sm font-medium text-emerald-600 tracking-wide">SEJAHTERA</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Items -->
+    <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1.5" id="sidebar-menu">
+      <p class="px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4">Main Menu</p>
+      
+      <!-- Menu Item: Dashboard (Active by default) -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 bg-emerald-50 text-emerald-700 font-medium shadow-sm">
+        <i class="ph ph-squares-four text-xl text-emerald-600 icon-ph"></i>
+        <span class="text-sm">Dashboard</span>
+        <div class="active-dot ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+
+      <!-- Menu Item: Manajemen Obat -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700">
+        <i class="ph ph-pill text-xl text-slate-400 icon-ph"></i>
+        <span class="text-sm">Manajemen Obat</span>
+        <div class="active-dot hidden ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+
+      <!-- Menu Item: Stok & Kadaluarsa -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700">
+        <i class="ph ph-archive text-xl text-slate-400 icon-ph"></i>
+        <span class="text-sm">Stok & Kadaluarsa</span>
+        <div class="active-dot hidden ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+
+      <!-- Menu Item: Supplier -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700">
+        <i class="ph ph-truck text-xl text-slate-400 icon-ph"></i>
+        <span class="text-sm">Supplier</span>
+        <div class="active-dot hidden ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+
+      <!-- Menu Item: Laporan -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700">
+        <i class="ph ph-chart-bar text-xl text-slate-400 icon-ph"></i>
+        <span class="text-sm">Laporan</span>
+        <div class="active-dot hidden ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+
+      <!-- Menu Item: User Management -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700">
+        <i class="ph ph-users text-xl text-slate-400 icon-ph"></i>
+        <span class="text-sm">User Management</span>
+        <div class="active-dot hidden ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+
+      <!-- Menu Item: Pengaturan -->
+      <button class="menu-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-slate-500 hover:bg-slate-50 hover:text-slate-700">
+        <i class="ph ph-gear text-xl text-slate-400 icon-ph"></i>
+        <span class="text-sm">Pengaturan</span>
+        <div class="active-dot hidden ml-auto w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+      </button>
+    </div>
+    
+    <!-- Help/Support Card -->
+    <div class="p-6 mt-auto shrink-0">
+      <div class="bg-slate-900 rounded-2xl p-5 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-24 h-24 bg-white opacity-5 rounded-full blur-xl -mr-10 -mt-10"></div>
+        <p class="text-white text-sm font-medium mb-1">Butuh Bantuan?</p>
+        <p class="text-slate-400 text-xs mb-4">Kontak tim IT support</p>
+        <button class="w-full bg-emerald-500 hover:bg-emerald-400 text-white text-xs font-medium py-2 rounded-lg transition-colors">
+          Hubungi Support
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- TOPBAR -->
+    <header class="h-20 bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8 z-10 sticky top-0 shrink-0">
+      <div class="flex items-center gap-4 flex-1">
+        <!-- Mobile Menu Toggle -->
+        <button class="md:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-lg">
+          <i class="ph ph-list text-2xl"></i>
+        </button>
+
+        <div class="relative w-full max-w-md hidden sm:block">
+          <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+          <input 
+            type="text" 
+            placeholder="Cari obat, resep, atau supplier..." 
+            class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-slate-400"
+          />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4 md:gap-6">
+        <!-- Mobile Search Toggle -->
+        <button class="sm:hidden relative p-2 text-slate-400 hover:text-slate-600 transition-colors">
+          <i class="ph ph-magnifying-glass text-xl"></i>
+        </button>
+
+        <!-- NOTIFICATION WRAPPER -->
+        <div class="relative" id="dropdown-wrapper-notif">
+          <button id="btn-notif" class="relative p-2 text-slate-400 hover:text-slate-600 transition-colors focus:outline-none rounded-lg hover:bg-slate-50">
+            <i class="ph ph-bell text-xl"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+          </button>
+          
+          <!-- Notif Dropdown Panel -->
+          <div id="panel-notif" class="absolute right-0 mt-3 w-80 sm:w-96 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 hidden z-50 overflow-hidden transform origin-top-right transition-all">
+            <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <h3 class="text-sm font-bold text-slate-800">Notifikasi</h3>
+              <button class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Tandai sudah dibaca</button>
+            </div>
+            <div class="max-h-[320px] overflow-y-auto no-scrollbar">
+              <!-- Item Notif 1 -->
+              <a href="#" class="flex gap-3 p-4 border-b border-slate-50 hover:bg-slate-50 transition-colors bg-blue-50/30">
+                <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="ph ph-warning"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-slate-800">Stok Paracetamol Menipis</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Sisa stok 12 botol. Segera lakukan restock ulang.</p>
+                  <p class="text-[10px] font-medium text-slate-400 mt-1.5">10 menit yang lalu</p>
+                </div>
+              </a>
+              <!-- Item Notif 2 -->
+              <a href="#" class="flex gap-3 p-4 border-b border-slate-50 hover:bg-slate-50 transition-colors bg-blue-50/30">
+                <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="ph ph-clock"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-slate-800">Bodrex Extra Expired</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Batch #BX-9923 telah melewati masa kadaluarsa.</p>
+                  <p class="text-[10px] font-medium text-slate-400 mt-1.5">1 jam yang lalu</p>
+                </div>
+              </a>
+              <!-- Item Notif 3 -->
+              <a href="#" class="flex gap-3 p-4 hover:bg-slate-50 transition-colors">
+                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                  <i class="ph ph-truck"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-slate-700">Pesanan Diterima</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Pesanan dari PT Kimia Farma telah masuk ke gudang.</p>
+                  <p class="text-[10px] font-medium text-slate-400 mt-1.5">Kemarin, 14:30</p>
+                </div>
+              </a>
+            </div>
+            <div class="p-2 border-t border-slate-100 bg-slate-50 text-center">
+              <button class="text-xs font-semibold text-slate-500 hover:text-emerald-600 transition-colors">Lihat Semua Notifikasi</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-px h-8 bg-slate-200 hidden md:block"></div>
+        
+        <!-- PROFILE WRAPPER -->
+        <div class="relative" id="dropdown-wrapper-profile">
+          <button id="btn-profile" class="flex items-center gap-3 text-left hover:opacity-80 transition-opacity focus:outline-none">
+            <div class="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center overflow-hidden shrink-0">
+              <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=d1fae5" alt="Admin" class="w-full h-full object-cover" />
+            </div>
+            <div class="hidden md:block">
+              <p class="text-sm font-semibold text-slate-800">Budi Santoso</p>
+              <p class="text-xs text-slate-500">Super Admin</p>
+            </div>
+            <i class="ph ph-caret-down text-sm text-slate-400 hidden md:block"></i>
+          </button>
+          
+          <!-- Profil Dropdown Panel -->
+          <div id="panel-profile" class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 hidden z-50 overflow-hidden transform origin-top-right transition-all">
+            <div class="p-3 border-b border-slate-50">
+              <p class="text-sm font-bold text-slate-800">Budi Santoso</p>
+              <p class="text-xs text-slate-500">budi@apoteksejahtera.com</p>
+            </div>
+            <div class="p-1">
+              <button id="btn-menu-profil" class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-colors flex items-center gap-2">
+                <i class="ph ph-user text-lg"></i> Profil Saya
+              </button>
+              <button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-colors flex items-center gap-2" onclick="document.querySelector('.menu-btn:last-child').click(); document.getElementById('panel-profile').classList.add('hidden');">
+                <i class="ph ph-gear text-lg"></i> Pengaturan
+              </button>
+            </div>
+            <div class="p-1 border-t border-slate-50">
+              <button class="w-full text-left px-3 py-2 text-sm text-rose-600 hover:bg-rose-50 rounded-lg transition-colors flex items-center gap-2">
+                <i class="ph ph-sign-out text-lg"></i> Keluar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- DASHBOARD CONTENT -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 no-scrollbar pb-24">
+      
+      <!-- VIEW: DASHBOARD -->
+      <div id="view-dashboard" class="max-w-7xl mx-auto space-y-8">
+        
+        <!-- Header Title -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Overview Hari Ini</h2>
+            <p class="text-sm text-slate-500 mt-1">Pantau aktivitas dan performa apotek secara real-time.</p>
+          </div>
+          
+          <!-- DATE WRAPPER -->
+          <div class="relative" id="dropdown-wrapper-date">
+            <button id="btn-date" class="px-4 py-2 bg-white border border-slate-200 rounded-lg shadow-sm text-sm font-medium text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none w-full md:w-auto justify-between md:justify-start">
+              <i class="ph ph-calendar-blank text-slate-400"></i>
+              <span>23 April 2026</span>
+              <i class="ph ph-caret-down text-slate-400 ml-1"></i>
+            </button>
+            
+            <!-- Date Dropdown Panel -->
+            <div id="panel-date" class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 hidden z-50 overflow-hidden">
+              <div class="p-1">
+                <button class="w-full text-left px-3 py-2 text-sm text-emerald-700 bg-emerald-50 font-semibold rounded-lg transition-colors flex items-center justify-between">
+                  Hari Ini <i class="ph ph-check text-emerald-600"></i>
+                </button>
+                <button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-colors">
+                  Kemarin
+                </button>
+                <button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-colors">
+                  7 Hari Terakhir
+                </button>
+                <button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-colors">
+                  30 Hari Terakhir
+                </button>
+              </div>
+              <div class="p-1 border-t border-slate-50">
+                <button class="w-full text-left px-3 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-emerald-600 rounded-lg transition-colors flex items-center gap-2">
+                  <i class="ph ph-calendar-plus text-lg"></i> Pilih Kustom...
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. STATISTIK CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Card 1 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-sm font-medium text-slate-500 mb-1">Total Obat Aktif</p>
+                <h3 class="text-3xl font-bold text-slate-800">1,248</h3>
+              </div>
+              <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph ph-pill text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2 text-xs">
+              <span class="flex items-center text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-md">
+                <i class="ph ph-trend-up mr-1"></i> +12%
+              </span>
+              <span class="text-slate-400">dari bulan lalu</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-sm font-medium text-slate-500 mb-1">Total Supplier</p>
+                <h3 class="text-3xl font-bold text-slate-800">45</h3>
+              </div>
+              <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph ph-truck text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2 text-xs">
+              <span class="text-slate-500">2 pengiriman tertunda hari ini</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-sm font-medium text-slate-500 mb-1">Penjualan Hari Ini</p>
+                <h3 class="text-3xl font-bold text-slate-800">142</h3>
+              </div>
+              <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph ph-shopping-cart text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2 text-xs">
+              <span class="flex items-center text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-md">
+                <i class="ph ph-trend-up mr-1"></i> +5.2%
+              </span>
+              <span class="text-slate-400">vs kemarin</span>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow group">
+            <div class="flex justify-between items-start">
+              <div>
+                <p class="text-sm font-medium text-slate-500 mb-1">Pendapatan Bulanan</p>
+                <h3 class="text-3xl font-bold text-slate-800 tracking-tight">Rp 84.5M</h3>
+              </div>
+              <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <i class="ph ph-wallet text-2xl"></i>
+              </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2 text-xs">
+              <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-amber-500 h-full w-[75%] rounded-full"></div>
+              </div>
+              <span class="text-slate-500 whitespace-nowrap">75% Target</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN CHARTS AND ALERTS ROW -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- 2. GRAFIK PENJUALAN (Line Chart) -->
+          <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+            <div class="flex justify-between items-center mb-6">
+              <div>
+                <h3 class="text-lg font-bold text-slate-800">Tren Penjualan</h3>
+                <p class="text-sm text-slate-500">Statistik transaksi 7 hari terakhir</p>
+              </div>
+              <button class="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                <i class="ph ph-dots-three-vertical text-xl text-slate-400"></i>
+              </button>
+            </div>
+            
+            <!-- Mockup Line Chart using SVG -->
+            <div class="relative w-full h-64 mt-4">
+              <svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 500 150">
+                <defs>
+                  <linearGradient id="gradientLine" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.4" />
+                    <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <!-- Grid lines -->
+                <path d="M0,30 L500,30" stroke="#f1f5f9" stroke-width="1" />
+                <path d="M0,70 L500,70" stroke="#f1f5f9" stroke-width="1" />
+                <path d="M0,110 L500,110" stroke="#f1f5f9" stroke-width="1" />
+                <path d="M0,150 L500,150" stroke="#f1f5f9" stroke-width="1" />
+                
+                <!-- Gradient Area -->
+                <path d="M0,120 C50,110 100,140 150,90 C200,40 250,80 300,60 C350,40 400,70 450,30 L500,20 L500,150 L0,150 Z" fill="url(#gradientLine)" />
+                
+                <!-- Line -->
+                <path d="M0,120 C50,110 100,140 150,90 C200,40 250,80 300,60 C350,40 400,70 450,30 L500,20" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                
+                <!-- Data Points -->
+                <circle cx="150" cy="90" r="4" fill="#fff" stroke="#10b981" stroke-width="2" class="cursor-pointer hover:r-[6px] transition-all duration-200" />
+                <circle cx="300" cy="60" r="4" fill="#fff" stroke="#10b981" stroke-width="2" class="cursor-pointer hover:r-[6px] transition-all duration-200" />
+                <circle cx="450" cy="30" r="4" fill="#fff" stroke="#10b981" stroke-width="2" class="cursor-pointer hover:r-[6px] transition-all duration-200" />
+              </svg>
+              
+              <!-- X-Axis Labels -->
+              <div class="absolute -bottom-6 left-0 right-0 flex justify-between text-xs text-slate-400 px-2">
+                <span class="hidden sm:inline">17 Apr</span>
+                <span>18 Apr</span>
+                <span class="hidden sm:inline">19 Apr</span>
+                <span>20 Apr</span>
+                <span class="hidden sm:inline">21 Apr</span>
+                <span>22 Apr</span>
+                <span>Hari Ini</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. ALERTS & NOTIFICATIONS -->
+          <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+              <div>
+                <h3 class="text-lg font-bold text-slate-800">Peringatan Sistem</h3>
+                <p class="text-sm text-slate-500">Butuh perhatian segera</p>
+              </div>
+              <div class="bg-rose-100 text-rose-600 text-xs font-bold px-2 py-1 rounded-md">4 Alert</div>
+            </div>
+            
+            <div class="flex-1 space-y-4 overflow-y-auto pr-2 no-scrollbar max-h-[300px]">
+              
+              <!-- Alert 1: Kadaluarsa -->
+              <div class="flex gap-4 p-3 rounded-xl border border-rose-100 bg-rose-50/50 hover:bg-rose-50 transition-colors">
+                <div class="mt-0.5">
+                  <i class="ph ph-clock text-xl text-rose-500"></i>
+                </div>
+                <div class="w-full">
+                  <h4 class="text-sm font-semibold text-slate-800">Amoxicillin 500mg</h4>
+                  <p class="text-xs text-slate-500 mt-0.5">Batch #AMX-992</p>
+                  <div class="mt-2 inline-flex text-[11px] font-medium bg-white border border-rose-200 text-rose-600 px-2 py-0.5 rounded shadow-sm">
+                    Kadaluarsa 7 hari lagi (30 Apr)
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 2: Kadaluarsa -->
+              <div class="flex gap-4 p-3 rounded-xl border border-rose-100 bg-rose-50/50 hover:bg-rose-50 transition-colors">
+                <div class="mt-0.5">
+                  <i class="ph ph-clock text-xl text-rose-500"></i>
+                </div>
+                <div class="w-full">
+                  <h4 class="text-sm font-semibold text-slate-800">Paracetamol Sirup</h4>
+                  <p class="text-xs text-slate-500 mt-0.5">Batch #PCT-104</p>
+                  <div class="mt-2 inline-flex text-[11px] font-medium bg-white border border-rose-200 text-rose-600 px-2 py-0.5 rounded shadow-sm">
+                    Kadaluarsa 10 hari lagi (03 Mei)
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 3: Stok Menipis -->
+              <div class="flex gap-4 p-3 rounded-xl border border-amber-100 bg-amber-50/50 hover:bg-amber-50 transition-colors">
+                <div class="mt-0.5">
+                  <i class="ph ph-warning text-xl text-amber-500"></i>
+                </div>
+                <div class="w-full">
+                  <h4 class="text-sm font-semibold text-slate-800">Vitamin C 1000mg</h4>
+                  <p class="text-xs text-slate-500 mt-0.5">Kategori: Suplemen</p>
+                  <div class="mt-2 flex items-center justify-between w-full">
+                    <span class="inline-flex text-[11px] font-medium bg-white border border-amber-200 text-amber-600 px-2 py-0.5 rounded shadow-sm">
+                      Sisa: 12 Box
+                    </span>
+                    <button class="text-xs text-amber-600 font-semibold hover:underline">Restock</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Alert 4: Stok Menipis -->
+              <div class="flex gap-4 p-3 rounded-xl border border-amber-100 bg-amber-50/50 hover:bg-amber-50 transition-colors">
+                <div class="mt-0.5">
+                  <i class="ph ph-warning text-xl text-amber-500"></i>
+                </div>
+                <div class="w-full">
+                  <h4 class="text-sm font-semibold text-slate-800">Obat Batuk Hitam (OBH)</h4>
+                  <p class="text-xs text-slate-500 mt-0.5">Kategori: Obat Bebas</p>
+                  <div class="mt-2 flex items-center justify-between w-full">
+                    <span class="inline-flex text-[11px] font-medium bg-white border border-amber-200 text-amber-600 px-2 py-0.5 rounded shadow-sm">
+                      Sisa: 5 Botol
+                    </span>
+                    <button class="text-xs text-amber-600 font-semibold hover:underline">Restock</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. OBAT TERLARIS (Bar Chart Section) -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+          <div class="flex justify-between items-center mb-6">
+            <div>
+              <h3 class="text-lg font-bold text-slate-800">Obat Terlaris Bulan Ini</h3>
+              <p class="text-sm text-slate-500">Berdasarkan kuantitas penjualan</p>
+            </div>
+            <button class="text-sm text-emerald-600 font-semibold hover:text-emerald-700 transition-colors">Lihat Semua Laporan</button>
+          </div>
+
+          <!-- Custom CSS Bar Chart Data -->
+          <div class="space-y-5">
+            
+            <!-- Item 1 -->
+            <div class="flex items-center gap-4 group">
+              <div class="w-8 text-sm font-bold text-slate-400 text-right">#1</div>
+              <div class="flex-1">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="font-semibold text-slate-700">Sanmol Paracetamol 500mg</span>
+                  <span class="font-medium text-slate-500">1240 Terjual</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full bg-emerald-500 group-hover:opacity-80 transition-all duration-500" style="width: 90%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="flex items-center gap-4 group">
+              <div class="w-8 text-sm font-bold text-slate-400 text-right">#2</div>
+              <div class="flex-1">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="font-semibold text-slate-700">Enervon-C Multivitamin</span>
+                  <span class="font-medium text-slate-500">980 Terjual</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full bg-emerald-400 group-hover:opacity-80 transition-all duration-500" style="width: 75%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="flex items-center gap-4 group">
+              <div class="w-8 text-sm font-bold text-slate-400 text-right">#3</div>
+              <div class="flex-1">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="font-semibold text-slate-700">Promag Tablet</span>
+                  <span class="font-medium text-slate-500">845 Terjual</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full bg-teal-400 group-hover:opacity-80 transition-all duration-500" style="width: 65%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="flex items-center gap-4 group">
+              <div class="w-8 text-sm font-bold text-slate-400 text-right">#4</div>
+              <div class="flex-1">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="font-semibold text-slate-700">Amoxicillin Trihydrate</span>
+                  <span class="font-medium text-slate-500">620 Terjual</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full bg-cyan-400 group-hover:opacity-80 transition-all duration-500" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="flex items-center gap-4 group">
+              <div class="w-8 text-sm font-bold text-slate-400 text-right">#5</div>
+              <div class="flex-1">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="font-semibold text-slate-700">Panadol Extra</span>
+                  <span class="font-medium text-slate-500">510 Terjual</span>
+                </div>
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                  <div class="h-full rounded-full bg-sky-400 group-hover:opacity-80 transition-all duration-500" style="width: 35%"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- VIEW: MANAJEMEN OBAT -->
+      <div id="view-obat" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Manajemen Obat</h2>
+            <p class="text-sm text-slate-500 mt-1">Kelola data inventaris obat, harga, dan stok.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm font-semibold rounded-xl shadow-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-file-xls text-lg text-emerald-600"></i> Import Excel
+            </button>
+            <button id="btn-tambah-obat" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors flex items-center gap-2">
+              <i class="ph ph-plus text-lg"></i> Tambah Obat
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel Container -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          
+          <!-- Toolbars (Search & Filter) -->
+          <div class="p-5 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <!-- Search -->
+            <div class="relative max-w-md w-full">
+              <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+              <input type="text" placeholder="Cari nama obat atau SKU..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-slate-400">
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="relative">
+                <select class="appearance-none pl-4 pr-10 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer">
+                  <option value="">Semua Kategori</option>
+                  <option value="antibiotik">Antibiotik</option>
+                  <option value="vitamin">Vitamin & Suplemen</option>
+                  <option value="bebas">Obat Bebas</option>
+                  <option value="resep">Obat Resep</option>
+                </select>
+                <i class="ph ph-caret-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+              </div>
+              
+              <div class="relative">
+                <select class="appearance-none pl-4 pr-10 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer">
+                  <option value="">Urutkan: Terbaru</option>
+                  <option value="harga_asc">Harga Terendah</option>
+                  <option value="harga_desc">Harga Tertinggi</option>
+                  <option value="stok_asc">Stok Paling Sedikit</option>
+                </select>
+                <i class="ph ph-caret-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Responsive Table -->
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-100">
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Info Obat</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Kategori</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Harga (Beli/Jual)</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Stok</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                
+                <!-- Row 1 -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-lg border border-slate-200 bg-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                        <i class="ph ph-pill text-xl text-emerald-500"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">Amoxicillin 500mg</p>
+                        <p class="text-xs text-slate-500">SKU: MED-001</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-md">Antibiotik</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-xs text-slate-500 line-through">Rp 5.000</p>
+                    <p class="text-sm font-semibold text-emerald-600">Rp 7.500</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">150 <span class="text-xs text-slate-500 font-normal">Strip</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-medium bg-emerald-50 border border-emerald-200 text-emerald-700 px-2 py-1 rounded-md">
+                      <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Stok Aman
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-lg border border-slate-200 bg-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                        <i class="ph ph-flask text-xl text-emerald-500"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">Paracetamol Sirup 60ml</p>
+                        <p class="text-xs text-slate-500">SKU: MED-042</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-md">Obat Bebas</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-xs text-slate-500 line-through">Rp 12.000</p>
+                    <p class="text-sm font-semibold text-emerald-600">Rp 15.000</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-amber-600">12 <span class="text-xs text-slate-500 font-normal">Botol</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-medium bg-amber-50 border border-amber-200 text-amber-700 px-2 py-1 rounded-md">
+                      <div class="w-1.5 h-1.5 rounded-full bg-amber-500"></div> Menipis
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr class="hover:bg-slate-50/50 transition-colors group bg-rose-50/20">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-lg border border-slate-200 bg-slate-100 overflow-hidden shrink-0 flex items-center justify-center">
+                        <i class="ph ph-pill text-xl text-emerald-500"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">Vitamin C 1000mg</p>
+                        <p class="text-xs text-slate-500">SKU: MED-088</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-md">Suplemen</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-xs text-slate-500 line-through">Rp 35.000</p>
+                    <p class="text-sm font-semibold text-emerald-600">Rp 45.000</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">0 <span class="text-xs text-slate-500 font-normal">Box</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-medium bg-rose-50 border border-rose-200 text-rose-700 px-2 py-1 rounded-md">
+                      <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div> Habis / Expired
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="p-4 border-t border-slate-100 flex items-center justify-between text-sm">
+            <span class="text-slate-500">Menampilkan <span class="font-medium text-slate-800">1-10</span> dari <span class="font-medium text-slate-800">1,248</span> obat</span>
+            <div class="flex items-center gap-1">
+              <button class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-400 disabled:opacity-50" disabled>
+                <i class="ph ph-caret-left"></i>
+              </button>
+              <button class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 font-semibold border border-emerald-200">1</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">2</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">3</button>
+              <span class="px-2 text-slate-400">...</span>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">125</button>
+              <button class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600">
+                <i class="ph ph-caret-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: STOK & KADALUARSA -->
+      <div id="view-stok" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Stok & Kadaluarsa</h2>
+            <p class="text-sm text-slate-500 mt-1">Pantau ketersediaan, pergerakan batch, dan peringatan masa berlaku obat.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button class="px-4 py-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-sm font-semibold rounded-xl transition-colors flex items-center gap-2">
+              <i class="ph ph-arrows-clockwise text-lg"></i> Sinkronisasi
+            </button>
+            <button class="px-4 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 text-sm font-semibold rounded-xl shadow-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-download-simple text-lg text-emerald-600"></i> Export Laporan
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel Container -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          
+          <!-- Toolbars (Search & Filter) -->
+          <div class="p-5 border-b border-slate-100 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <!-- Search -->
+            <div class="relative max-w-md w-full">
+              <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+              <input type="text" placeholder="Cari nama obat atau no. batch..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-slate-400">
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap items-center gap-3">
+              <!-- Filter Status -->
+              <div class="relative">
+                <select class="appearance-none pl-4 pr-10 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer">
+                  <option value="">Semua Status</option>
+                  <option value="expired">⚠️ Expired</option>
+                  <option value="habis">🔴 Habis</option>
+                  <option value="menipis">🟡 Hampir Habis</option>
+                  <option value="aman">🟢 Aman</option>
+                </select>
+                <i class="ph ph-caret-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+              </div>
+              
+              <!-- Sorting Tanggal -->
+              <div class="relative">
+                <select class="appearance-none pl-4 pr-10 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 cursor-pointer">
+                  <option value="">Urutkan: Tgl Expired Terdekat</option>
+                  <option value="exp_jauh">Tgl Expired Terjauh</option>
+                  <option value="stok_asc">Stok Paling Sedikit</option>
+                </select>
+                <i class="ph ph-caret-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Responsive Table -->
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-100">
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Info Obat</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">No. Batch</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Sisa Stok</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Tanggal Kadaluarsa</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                
+                <!-- Row 1: Expired -->
+                <tr class="bg-rose-50/20 hover:bg-rose-50/40 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800">Bodrex Extra</p>
+                      <p class="text-xs text-slate-500">SKU: MED-019</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono font-medium text-slate-600">BX-9923</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">15 <span class="text-xs text-slate-500 font-normal">Strip</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-bold text-rose-600">10 Apr 2026</p>
+                    <p class="text-xs text-rose-500 font-medium">Telah lewat 13 Hari</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-slate-800 text-white shadow-sm">
+                      <i class="ph-fill ph-warning-circle text-rose-400 text-sm"></i> Expired
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="px-3 py-1.5 text-xs font-semibold text-rose-600 border border-rose-200 bg-white hover:bg-rose-50 rounded-lg shadow-sm transition-colors opacity-0 group-hover:opacity-100">
+                      Buang / Retur
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 2: Hampir Habis -->
+                <tr class="bg-amber-50/20 hover:bg-amber-50/40 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800">Insto Reguler Drop 7.5ml</p>
+                      <p class="text-xs text-slate-500">SKU: MED-102</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono font-medium text-slate-600">IN-0012</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-bold text-amber-600">3 <span class="text-xs text-slate-500 font-normal">Botol</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">15 Okt 2027</p>
+                    <p class="text-xs text-slate-500">18 Bulan lagi</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-700 shadow-sm">
+                      <span class="w-2 h-2 rounded-full bg-amber-500"></span> Hampir Habis
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="px-3 py-1.5 text-xs font-semibold text-amber-600 border border-amber-200 bg-white hover:bg-amber-50 rounded-lg shadow-sm transition-colors opacity-0 group-hover:opacity-100">
+                      Restock
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 3: Habis -->
+                <tr class="hover:bg-slate-50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800">Panadol Anak Sirup 60ml</p>
+                      <p class="text-xs text-slate-500">SKU: MED-084</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono font-medium text-slate-600">PA-5541</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-bold text-rose-600">0 <span class="text-xs text-slate-500 font-normal">Botol</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">05 Nov 2028</p>
+                    <p class="text-xs text-slate-500">2 Tahun lagi</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-rose-50 border border-rose-200 text-rose-600 shadow-sm">
+                      <span class="w-2 h-2 rounded-full bg-rose-500"></span> Habis
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="px-3 py-1.5 text-xs font-semibold text-emerald-600 border border-emerald-200 bg-white hover:bg-emerald-50 rounded-lg shadow-sm transition-colors opacity-0 group-hover:opacity-100">
+                      Restock Baru
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 4: Aman -->
+                <tr class="hover:bg-slate-50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800">Amoxicillin 500mg</p>
+                      <p class="text-xs text-slate-500">SKU: MED-001</p>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono font-medium text-slate-600">AMX-442</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">150 <span class="text-xs text-slate-500 font-normal">Strip</span></p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">22 Des 2029</p>
+                    <p class="text-xs text-slate-500">3+ Tahun lagi</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 border border-emerald-200 text-emerald-700 shadow-sm">
+                      <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Aman
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="px-3 py-1.5 text-xs font-semibold text-slate-600 border border-slate-200 bg-white hover:bg-slate-50 rounded-lg shadow-sm transition-colors opacity-0 group-hover:opacity-100">
+                      Detail
+                    </button>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="p-4 border-t border-slate-100 flex items-center justify-between text-sm">
+            <span class="text-slate-500">Menampilkan <span class="font-medium text-slate-800">1-10</span> dari <span class="font-medium text-slate-800">3,492</span> batch</span>
+            <div class="flex items-center gap-1">
+              <button class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-400 disabled:opacity-50" disabled>
+                <i class="ph ph-caret-left"></i>
+              </button>
+              <button class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 font-semibold border border-emerald-200">1</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">2</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">3</button>
+              <span class="px-2 text-slate-400">...</span>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">350</button>
+              <button class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600">
+                <i class="ph ph-caret-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: SUPPLIER -->
+      <div id="view-supplier" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Manajemen Supplier</h2>
+            <p class="text-sm text-slate-500 mt-1">Kelola data pemasok, kontak, dan riwayat pemesanan.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button id="btn-tambah-supplier" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors flex items-center gap-2">
+              <i class="ph ph-plus text-lg"></i> Tambah Supplier
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel Container -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          
+          <!-- Toolbars (Search) -->
+          <div class="p-5 border-b border-slate-100 flex items-center justify-between gap-4">
+            <!-- Search -->
+            <div class="relative max-w-md w-full">
+              <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+              <input type="text" placeholder="Cari nama perusahaan atau kontak..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-slate-400">
+            </div>
+            
+            <span class="text-sm font-medium text-slate-500 hidden sm:block">Total: 45 Supplier Aktif</span>
+          </div>
+
+          <!-- Responsive Table -->
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-100">
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Perusahaan</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Kontak Person</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Kategori</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                
+                <!-- Row 1 -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
+                        <i class="ph-fill ph-buildings text-xl"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">PT Kimia Farma Trading</p>
+                        <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                          <i class="ph ph-map-pin text-slate-400"></i> Jakarta Pusat
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">Ahmad Fauzi</p>
+                    <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                      <i class="ph ph-phone text-slate-400"></i> 0812-3456-7890
+                    </p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-md">Distributor Utama</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 border border-emerald-200 text-emerald-700">
+                      Aktif
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="btn-detail-supplier p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Lihat Detail"><i class="ph ph-eye text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Hapus"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0">
+                        <i class="ph-fill ph-buildings text-xl"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">PT Enseval Putera Megatrading (Kalbe)</p>
+                        <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                          <i class="ph ph-map-pin text-slate-400"></i> Surabaya, Jatim
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">Siti Aminah</p>
+                    <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                      <i class="ph ph-phone text-slate-400"></i> 0856-7890-1234
+                    </p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-md">Distributor Utama</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 border border-emerald-200 text-emerald-700">
+                      Aktif
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="btn-detail-supplier p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Lihat Detail"><i class="ph ph-eye text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Hapus"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-500 border border-slate-200 flex items-center justify-center shrink-0">
+                        <i class="ph-fill ph-buildings text-xl"></i>
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">CV Sehat Bersama</p>
+                        <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                          <i class="ph ph-map-pin text-slate-400"></i> Bandung, Jabar
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">Budi Pratama</p>
+                    <p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+                      <i class="ph ph-phone text-slate-400"></i> 0821-1122-3344
+                    </p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-xs font-medium bg-slate-100 text-slate-600 px-2 py-1 rounded-md">Alkes & Suplemen</span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 border border-slate-200 text-slate-600">
+                      Nonaktif
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="btn-detail-supplier p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Lihat Detail"><i class="ph ph-eye text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Hapus"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="p-4 border-t border-slate-100 flex items-center justify-between text-sm">
+            <span class="text-slate-500">Menampilkan <span class="font-medium text-slate-800">1-10</span> dari <span class="font-medium text-slate-800">45</span> supplier</span>
+            <div class="flex items-center gap-1">
+              <button class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-400 disabled:opacity-50" disabled>
+                <i class="ph ph-caret-left"></i>
+              </button>
+              <button class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 font-semibold border border-emerald-200">1</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">2</button>
+              <button class="w-8 h-8 rounded-lg hover:bg-slate-50 text-slate-600 font-medium">3</button>
+              <button class="p-2 border border-slate-200 rounded-lg hover:bg-slate-50 text-slate-600">
+                <i class="ph ph-caret-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: LAPORAN -->
+      <div id="view-laporan" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View & Exports -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Laporan & Analitik</h2>
+            <p class="text-sm text-slate-500 mt-1">Analisis penjualan, performa obat, dan ringkasan finansial.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button class="px-4 py-2.5 bg-white border border-rose-200 hover:bg-rose-50 text-rose-600 text-sm font-semibold rounded-xl shadow-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-file-pdf text-lg"></i> Export PDF
+            </button>
+            <button class="px-4 py-2.5 bg-white border border-emerald-200 hover:bg-emerald-50 text-emerald-600 text-sm font-semibold rounded-xl shadow-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-file-xls text-lg"></i> Export Excel
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="bg-white p-4 border border-slate-200 rounded-2xl shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+            <!-- Quick Filters -->
+            <div class="flex bg-slate-100 p-1 rounded-lg">
+              <button class="px-4 py-1.5 text-sm font-medium rounded-md bg-white shadow-sm text-slate-800">Bulan Ini</button>
+              <button class="px-4 py-1.5 text-sm font-medium rounded-md text-slate-500 hover:text-slate-700">Bulan Lalu</button>
+              <button class="px-4 py-1.5 text-sm font-medium rounded-md text-slate-500 hover:text-slate-700">Tahun Ini</button>
+            </div>
+            
+            <!-- Range Picker Custom (HTML Native styled) -->
+            <div class="flex items-center gap-2 bg-white border border-slate-200 rounded-lg px-3 py-1.5 w-full md:w-auto">
+              <i class="ph ph-calendar-blank text-slate-400"></i>
+              <input type="date" value="2026-04-01" class="text-sm font-medium text-slate-600 bg-transparent outline-none cursor-pointer">
+              <span class="text-slate-400 text-sm">-</span>
+              <input type="date" value="2026-04-23" class="text-sm font-medium text-slate-600 bg-transparent outline-none cursor-pointer">
+            </div>
+          </div>
+          
+          <button class="w-full md:w-auto px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+            Terapkan Filter
+          </button>
+        </div>
+
+        <!-- 3 Quick Stats untuk Laporan -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white p-5 border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 shrink-0">
+              <i class="ph-fill ph-receipt text-2xl"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-slate-500">Total Transaksi</p>
+              <h4 class="text-2xl font-bold text-slate-800">3,492</h4>
+            </div>
+          </div>
+          <div class="bg-white p-5 border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 shrink-0">
+              <i class="ph-fill ph-money text-2xl"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-slate-500">Total Pendapatan</p>
+              <h4 class="text-2xl font-bold text-slate-800">Rp 128.5M</h4>
+            </div>
+          </div>
+          <div class="bg-white p-5 border border-slate-200 rounded-2xl shadow-sm flex items-center gap-4">
+            <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 shrink-0">
+              <i class="ph-fill ph-chart-line-up text-2xl"></i>
+            </div>
+            <div>
+              <p class="text-sm font-medium text-slate-500">Estimasi Laba Kotor</p>
+              <h4 class="text-2xl font-bold text-slate-800">Rp 42.8M</h4>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Split: Chart & Data -->
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          
+          <!-- Laporan Grafik (Bar Chart css) -->
+          <div class="xl:col-span-2 bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+            <div class="flex justify-between items-center mb-8">
+              <div>
+                <h3 class="text-lg font-bold text-slate-800">Grafik Pendapatan</h3>
+                <p class="text-sm text-slate-500">Periode: 1 Apr - 23 Apr 2026</p>
+              </div>
+              <div class="relative">
+                <select class="appearance-none pl-4 pr-10 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 focus:outline-none cursor-pointer">
+                  <option>Mingguan</option>
+                  <option>Harian</option>
+                </select>
+                <i class="ph ph-caret-down absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-xs"></i>
+              </div>
+            </div>
+
+            <!-- CSS Bar Chart -->
+            <div class="h-64 flex items-end justify-between gap-2 px-2 relative">
+              <!-- Grid Lines background -->
+              <div class="absolute inset-0 flex flex-col justify-between z-0">
+                <div class="w-full h-px bg-slate-100"></div>
+                <div class="w-full h-px bg-slate-100"></div>
+                <div class="w-full h-px bg-slate-100"></div>
+                <div class="w-full h-px bg-slate-100"></div>
+                <div class="w-full h-px bg-slate-100"></div>
+              </div>
+
+              <!-- Bars -->
+              <div class="w-full flex flex-col items-center gap-2 z-10 group cursor-pointer">
+                <div class="w-full max-w-[40px] bg-emerald-100 hover:bg-emerald-500 transition-colors rounded-t-md relative" style="height: 45%;">
+                  <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Rp 12M</div>
+                </div>
+                <span class="text-xs font-medium text-slate-400">Minggu 1</span>
+              </div>
+              
+              <div class="w-full flex flex-col items-center gap-2 z-10 group cursor-pointer">
+                <div class="w-full max-w-[40px] bg-emerald-100 hover:bg-emerald-500 transition-colors rounded-t-md relative" style="height: 65%;">
+                  <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Rp 18M</div>
+                </div>
+                <span class="text-xs font-medium text-slate-400">Minggu 2</span>
+              </div>
+
+              <div class="w-full flex flex-col items-center gap-2 z-10 group cursor-pointer">
+                <div class="w-full max-w-[40px] bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.3)] rounded-t-md relative" style="height: 90%;">
+                  <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded whitespace-nowrap pointer-events-none">Rp 25M</div>
+                </div>
+                <span class="text-xs font-bold text-slate-700">Minggu 3</span>
+              </div>
+
+              <div class="w-full flex flex-col items-center gap-2 z-10 group cursor-pointer">
+                <div class="w-full max-w-[40px] bg-emerald-100 hover:bg-emerald-500 transition-colors rounded-t-md relative" style="height: 35%;">
+                  <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">Rp 8M</div>
+                </div>
+                <span class="text-xs font-medium text-slate-400">Minggu 4</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Laporan Kategori (Pie Chart Info) -->
+          <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 flex flex-col">
+            <h3 class="text-lg font-bold text-slate-800 mb-6">Penjualan per Kategori</h3>
+            
+            <div class="flex-1 flex flex-col justify-center space-y-5">
+              <div class="flex items-center gap-4">
+                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                <div class="flex-1">
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="font-semibold text-slate-700">Obat Bebas</span>
+                    <span class="font-bold text-slate-800">45%</span>
+                  </div>
+                  <p class="text-xs text-slate-500">Rp 57.8M</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                <div class="flex-1">
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="font-semibold text-slate-700">Obat Resep</span>
+                    <span class="font-bold text-slate-800">30%</span>
+                  </div>
+                  <p class="text-xs text-slate-500">Rp 38.5M</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                <div class="flex-1">
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="font-semibold text-slate-700">Vitamin & Suplemen</span>
+                    <span class="font-bold text-slate-800">15%</span>
+                  </div>
+                  <p class="text-xs text-slate-500">Rp 19.2M</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+                <div class="flex-1">
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="font-semibold text-slate-700">Alat Kesehatan</span>
+                    <span class="font-bold text-slate-800">10%</span>
+                  </div>
+                  <p class="text-xs text-slate-500">Rp 12.8M</p>
+                </div>
+              </div>
+            </div>
+            
+            <button class="mt-6 w-full py-2.5 bg-slate-50 hover:bg-slate-100 text-slate-600 text-sm font-semibold rounded-lg transition-colors">
+              Lihat Detail Kategori
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Tabel Rincian Data (Report Table) -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-slate-800">Rincian Transaksi Laporan</h3>
+            <div class="relative max-w-xs w-full hidden md:block">
+              <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+              <input type="text" placeholder="Cari No. Invoice..." class="w-full pl-10 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+            </div>
+          </div>
+          
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-100">
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Tanggal</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">No. Invoice</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Kasir</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Metode Bayar</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Total Transaksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">23 Apr 2026</p>
+                    <p class="text-xs text-slate-500">10:45 WIB</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono text-emerald-600 font-semibold cursor-pointer hover:underline">INV-0423-001</span>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-slate-600">Siti Rahma</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-[11px] font-semibold bg-blue-50 text-blue-600 px-2.5 py-1 rounded-md border border-blue-100">QRIS / E-Wallet</span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <p class="text-sm font-bold text-slate-800">Rp 125.000</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">23 Apr 2026</p>
+                    <p class="text-xs text-slate-500">09:12 WIB</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono text-emerald-600 font-semibold cursor-pointer hover:underline">INV-0423-002</span>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-slate-600">Siti Rahma</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-[11px] font-semibold bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-md border border-emerald-100">Tunai</span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <p class="text-sm font-bold text-slate-800">Rp 45.500</p>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">22 Apr 2026</p>
+                    <p class="text-xs text-slate-500">16:30 WIB</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="text-sm font-mono text-emerald-600 font-semibold cursor-pointer hover:underline">INV-0422-089</span>
+                  </td>
+                  <td class="px-6 py-4 text-sm text-slate-600">Budi Santoso</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex text-[11px] font-semibold bg-purple-50 text-purple-600 px-2.5 py-1 rounded-md border border-purple-100">Kartu Debit/Kredit</span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <p class="text-sm font-bold text-slate-800">Rp 850.000</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="p-4 bg-slate-50 border-t border-slate-100 text-center">
+            <button class="text-sm font-semibold text-emerald-600 hover:text-emerald-700">Muat Lebih Banyak Data</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: USER MANAGEMENT -->
+      <div id="view-users" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Manajemen Pengguna</h2>
+            <p class="text-sm text-slate-500 mt-1">Kelola akses, role, dan status akun staf apotek.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button id="btn-tambah-user" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors flex items-center gap-2">
+              <i class="ph ph-user-plus text-lg"></i> Tambah Pengguna
+            </button>
+          </div>
+        </div>
+
+        <!-- Tabel Container -->
+        <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+          
+          <!-- Toolbars (Search & Filter) -->
+          <div class="p-5 border-b border-slate-100 flex items-center justify-between gap-4">
+            <!-- Search -->
+            <div class="relative max-w-md w-full">
+              <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-lg"></i>
+              <input type="text" placeholder="Cari nama atau username..." class="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-slate-400">
+            </div>
+            
+            <div class="flex items-center gap-2 text-sm font-medium text-slate-500">
+              <i class="ph ph-users"></i> Total: 8 Staf
+            </div>
+          </div>
+
+          <!-- Responsive Table -->
+          <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-100">
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Pengguna</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Role Hak Akses</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Terakhir Login</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status Akun</th>
+                  <th class="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                
+                <!-- Row 1: Admin -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center overflow-hidden shrink-0">
+                        <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=d1fae5" alt="Avatar" class="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">Budi Santoso (Anda)</p>
+                        <p class="text-xs text-slate-500">@budisantoso</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-bold bg-purple-50 text-purple-700 px-2.5 py-1 rounded-md border border-purple-100">
+                      <i class="ph-fill ph-shield-check"></i> Administrator
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">Hari ini, 08:30</p>
+                    <p class="text-xs text-slate-500">IP: 192.168.1.1</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked disabled>
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500 opacity-60"></div>
+                      </label>
+                      <span class="text-xs font-semibold text-emerald-600">Aktif</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <span class="text-xs font-medium text-slate-400 italic">Akun Anda</span>
+                  </td>
+                </tr>
+
+                <!-- Row 2: Kasir Aktif -->
+                <tr class="hover:bg-slate-50/50 transition-colors group">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center overflow-hidden shrink-0">
+                        <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Aneka&backgroundColor=dbeafe" alt="Avatar" class="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800">Siti Rahma</p>
+                        <p class="text-xs text-slate-500">@sitirahma</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-blue-50 text-blue-700 px-2.5 py-1 rounded-md border border-blue-100">
+                      <i class="ph-fill ph-calculator"></i> Kasir
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">Kemarin, 14:20</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                      </label>
+                      <span class="text-xs font-semibold text-emerald-600">Aktif</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Reset Password"><i class="ph ph-key text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit Data"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Hapus"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Row 3: Kasir Nonaktif -->
+                <tr class="hover:bg-slate-50/50 transition-colors group opacity-75">
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                      <div class="w-10 h-10 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center overflow-hidden shrink-0 grayscale">
+                        <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Joko&backgroundColor=f1f5f9" alt="Avatar" class="w-full h-full object-cover" />
+                      </div>
+                      <div>
+                        <p class="text-sm font-semibold text-slate-800 line-through decoration-slate-400">Joko Anwar</p>
+                        <p class="text-xs text-slate-500">@jokoanwar</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 text-xs font-semibold bg-blue-50 text-blue-700 px-2.5 py-1 rounded-md border border-blue-100">
+                      <i class="ph-fill ph-calculator"></i> Kasir
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    <p class="text-sm font-medium text-slate-800">12 Feb 2026</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <div class="flex items-center gap-2">
+                      <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                      </label>
+                      <span class="text-xs font-semibold text-slate-400">Nonaktif</span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button class="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors" title="Reset Password"><i class="ph ph-key text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit Data"><i class="ph ph-pencil-simple text-lg"></i></button>
+                      <button class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors" title="Hapus"><i class="ph ph-trash text-lg"></i></button>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- VIEW: PENGATURAN -->
+      <div id="view-pengaturan" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Pengaturan Sistem</h2>
+            <p class="text-sm text-slate-500 mt-1">Konfigurasi profil apotek, preferensi keuangan, dan pajak.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors flex items-center gap-2">
+              <i class="ph ph-floppy-disk text-lg"></i> Simpan Perubahan
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Kolom Kiri: Profil & Logo (Makan 2 kolom di layar besar) -->
+          <div class="lg:col-span-2 space-y-6">
+            
+            <!-- Card Profil Apotek -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+              <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="text-base font-bold text-slate-800">Profil Apotek</h3>
+                <p class="text-xs text-slate-500">Informasi ini akan ditampilkan pada struk dan invoice.</p>
+              </div>
+              
+              
+              <div class="p-6 space-y-6">
+                <!-- Upload Logo Area -->
+                <div class="flex flex-col sm:flex-row sm:items-center gap-6 border-b border-slate-100 pb-6">
+                  <div class="w-24 h-24 rounded-2xl bg-slate-50 border-2 border-dashed border-slate-300 flex items-center justify-center hover:bg-emerald-50 hover:border-emerald-400 cursor-pointer transition-colors group relative overflow-hidden shrink-0">
+                    <i class="ph ph-camera text-2xl text-slate-400 group-hover:text-emerald-500 transition-colors z-10"></i>
+                    <!-- Jika ada logo, render image di sini -->
+                    <div class="absolute inset-0 bg-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-slate-800 mb-1">Logo Resmi Apotek</h4>
+                    <p class="text-xs text-slate-500 mb-3 max-w-xs">Format PNG, JPG, atau SVG dengan ukuran maksimal 2MB. Resolusi disarankan 512x512px.</p>
+                    <div class="flex gap-2">
+                      <button class="px-3 py-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 rounded-lg hover:bg-emerald-100 transition-colors">Upload Logo</button>
+                      <button class="px-3 py-1.5 text-xs font-semibold text-rose-600 bg-white border border-slate-200 rounded-lg hover:bg-rose-50 transition-colors">Hapus</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Form Profil -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div class="space-y-1.5 sm:col-span-2">
+                    <label class="text-sm font-semibold text-slate-700">Nama Apotek <span class="text-rose-500">*</span></label>
+                    <input type="text" value="Apotek Sejahtera" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium text-slate-800">
+                  </div>
+                  
+                  <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">No. Izin Apotek (SIA)</label>
+                    <input type="text" value="SIA/123.45/2024" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-600">
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">Apoteker Penanggung Jawab</label>
+                    <input type="text" value="Dra. Siti Aminah, Apt." class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-600">
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">No. Telepon / WhatsApp <span class="text-rose-500">*</span></label>
+                    <input type="tel" value="0812-9988-7766" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-600">
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">Email Resmi</label>
+                    <input type="email" value="halo@apoteksejahtera.com" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-600">
+                  </div>
+
+                  <div class="space-y-1.5 sm:col-span-2">
+                    <label class="text-sm font-semibold text-slate-700">Alamat Lengkap <span class="text-rose-500">*</span></label>
+                    <textarea rows="3" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all resize-none text-slate-600">Jl. Kesehatan No. 123, Kel. Sembuh, Kec. Medis, Kota Sehat 40112</textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan: Keuangan & Diskon -->
+          <div class="space-y-6">
+            
+            <!-- Card Pajak -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+              <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div class="flex items-center gap-2">
+                  <i class="ph-fill ph-receipt text-slate-400 text-lg"></i>
+                  <h3 class="text-sm font-bold text-slate-800">Pajak (PPN)</h3>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer" checked>
+                  <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                </label>
+              </div>
+              <div class="p-5">
+                <p class="text-xs text-slate-500 mb-3">Persentase pajak ini akan ditambahkan secara otomatis pada setiap transaksi di kasir jika statusnya aktif.</p>
+                <div class="relative">
+                  <input type="number" value="11" class="w-full pl-4 pr-10 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Diskon Global -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+              <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div class="flex items-center gap-2">
+                  <i class="ph-fill ph-tag text-slate-400 text-lg"></i>
+                  <h3 class="text-sm font-bold text-slate-800">Diskon Global</h3>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer">
+                  <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+                </label>
+              </div>
+              <div class="p-5 opacity-60 pointer-events-none transition-opacity" id="area-diskon"> <!-- Efek disabled jika tidak aktif -->
+                <p class="text-xs text-slate-500 mb-3">Terapkan diskon otomatis untuk semua pelanggan (contoh: Promo Kemerdekaan).</p>
+                <div class="relative">
+                  <input type="number" placeholder="0" class="w-full pl-4 pr-10 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                  <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hint Box -->
+            <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 flex gap-3">
+              <i class="ph-fill ph-warning-circle text-amber-500 text-lg shrink-0 mt-0.5"></i>
+              <p class="text-xs text-amber-700 leading-relaxed font-medium">Perubahan pada pajak dan diskon global akan langsung memengaruhi transaksi kasir yang sedang berjalan. Pastikan untuk memberitahu staf Anda.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW: PROFIL ADMIN -->
+      <div id="view-profil-admin" class="max-w-7xl mx-auto space-y-6 hidden">
+        
+        <!-- Header View -->
+        <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+          <div>
+            <h2 class="text-2xl font-bold text-slate-800">Profil Saya</h2>
+            <p class="text-sm text-slate-500 mt-1">Kelola informasi pribadi dan keamanan akun Anda.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <button class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors flex items-center gap-2">
+              <i class="ph ph-floppy-disk text-lg"></i> Simpan Profil
+            </button>
+          </div>
+        </div>
+
+        <!-- Content Split -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          <!-- Card Kiri: Avatar & Info Singkat -->
+          <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 flex flex-col items-center text-center">
+              <div class="w-32 h-32 rounded-full bg-emerald-100 border-4 border-white shadow-md overflow-hidden mb-4 relative group cursor-pointer">
+                <img src="https://api.dicebear.com/7.x/notionists/svg?seed=Felix&backgroundColor=d1fae5" alt="Admin" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-slate-900/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i class="ph ph-camera text-white text-2xl"></i>
+                </div>
+              </div>
+              <h3 class="text-lg font-bold text-slate-800">Budi Santoso</h3>
+              <p class="text-sm font-semibold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mt-2 border border-emerald-100">Super Admin</p>
+              
+              <div class="w-full mt-6 pt-6 border-t border-slate-100 space-y-3 text-left">
+                <div class="flex items-center gap-3 text-slate-600">
+                  <i class="ph ph-envelope-simple text-lg text-slate-400"></i>
+                  <span class="text-sm font-medium">budi@apoteksejahtera.com</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600">
+                  <i class="ph ph-phone text-lg text-slate-400"></i>
+                  <span class="text-sm font-medium">0812-3456-7890</span>
+                </div>
+                <div class="flex items-center gap-3 text-slate-600">
+                  <i class="ph ph-map-pin text-lg text-slate-400"></i>
+                  <span class="text-sm font-medium">Makassar, Sulawesi Selatan</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Kanan: Form Edit -->
+          <div class="lg:col-span-2 space-y-6">
+            
+            <!-- Informasi Pribadi -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+              <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="text-base font-bold text-slate-800">Informasi Pribadi</h3>
+                <p class="text-xs text-slate-500">Perbarui data diri Anda di sini.</p>
+              </div>
+              <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="space-y-1.5 sm:col-span-2">
+                  <label class="text-sm font-semibold text-slate-700">Nama Lengkap</label>
+                  <input type="text" value="Budi Santoso" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-800 font-medium">
+                </div>
+                <div class="space-y-1.5">
+                  <label class="text-sm font-semibold text-slate-700">Username</label>
+                  <input type="text" value="budisantoso" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-500 font-medium cursor-not-allowed" readonly>
+                </div>
+                <div class="space-y-1.5">
+                  <label class="text-sm font-semibold text-slate-700">Email</label>
+                  <input type="email" value="budi@apoteksejahtera.com" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-800 font-medium">
+                </div>
+                <div class="space-y-1.5">
+                  <label class="text-sm font-semibold text-slate-700">No. Telepon</label>
+                  <input type="tel" value="0812-3456-7890" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-800 font-medium">
+                </div>
+                <div class="space-y-1.5">
+                  <label class="text-sm font-semibold text-slate-700">Kota / Wilayah</label>
+                  <input type="text" value="Makassar" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-800 font-medium">
+                </div>
+              </div>
+            </div>
+
+            <!-- Keamanan / Ubah Password -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+              <div class="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
+                <h3 class="text-base font-bold text-slate-800">Keamanan & Password</h3>
+                <p class="text-xs text-slate-500">Pastikan akun Anda selalu aman dengan password yang kuat.</p>
+              </div>
+              <div class="p-6 space-y-5">
+                <div class="space-y-1.5">
+                  <label class="text-sm font-semibold text-slate-700">Password Saat Ini</label>
+                  <input type="password" placeholder="••••••••" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all tracking-widest">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">Password Baru</label>
+                    <input type="password" placeholder="Minimal 8 karakter" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all tracking-widest">
+                  </div>
+                  <div class="space-y-1.5">
+                    <label class="text-sm font-semibold text-slate-700">Konfirmasi Password Baru</label>
+                    <input type="password" placeholder="Ulangi password baru" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all tracking-widest">
+                  </div>
+                </div>
+                <div class="pt-3">
+                  <button class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold rounded-xl shadow-sm transition-colors flex items-center gap-2">
+                    <i class="ph ph-lock-key"></i> Perbarui Password
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: TAMBAH / EDIT OBAT -->
+  <div id="modal-obat" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <!-- Backdrop -->
+    <div class="modal-backdrop fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity opacity-0 ease-out duration-300"></div>
+
+    <!-- Modal Panel -->
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        
+        <div class="modal-content relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 ease-out duration-300">
+          
+          <!-- Header -->
+          <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h3 class="text-lg font-bold text-slate-800" id="modal-title">Tambah Obat Baru</h3>
+            <button class="btn-tutup-modal p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+              <i class="ph ph-x text-lg"></i>
+            </button>
+          </div>
+
+          <!-- Body (Form) -->
+          <div class="px-6 py-6 space-y-6">
+            
+            <!-- Upload Area -->
+            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 flex flex-col items-center justify-center text-center hover:bg-emerald-50/50 hover:border-emerald-400 cursor-pointer transition-colors group">
+              <div class="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-emerald-100 flex items-center justify-center mb-3 transition-colors">
+                <i class="ph ph-image text-2xl text-slate-400 group-hover:text-emerald-500 transition-colors"></i>
+              </div>
+              <p class="text-sm font-semibold text-slate-700">Klik untuk upload foto obat</p>
+              <p class="text-xs text-slate-500 mt-1">PNG, JPG up to 5MB</p>
+            </div>
+
+            <!-- Form Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              
+              <!-- Nama Obat -->
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Nama Obat <span class="text-rose-500">*</span></label>
+                <input type="text" placeholder="Masukkan nama obat..." class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+              </div>
+
+              <!-- Kategori -->
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Kategori <span class="text-rose-500">*</span></label>
+                <select class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all cursor-pointer text-slate-600">
+                  <option value="">Pilih kategori</option>
+                  <option value="antibiotik">Antibiotik</option>
+                  <option value="vitamin">Vitamin & Suplemen</option>
+                  <option value="bebas">Obat Bebas</option>
+                </select>
+              </div>
+
+              <!-- Harga Beli -->
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Harga Beli</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500 font-medium">Rp</span>
+                  <input type="number" placeholder="0" class="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                </div>
+              </div>
+
+              <!-- Harga Jual -->
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Harga Jual <span class="text-rose-500">*</span></label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-slate-500 font-medium">Rp</span>
+                  <input type="number" placeholder="0" class="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                </div>
+              </div>
+
+              <!-- Stok Awal -->
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Stok Awal</label>
+                <input type="number" placeholder="Contoh: 100" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+              </div>
+
+              <!-- Expired Date -->
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Expired Date <span class="text-rose-500">*</span></label>
+                <input type="date" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-slate-600">
+              </div>
+
+              <!-- Supplier -->
+              <div class="space-y-1.5 sm:col-span-2">
+                <label class="text-sm font-semibold text-slate-700">Supplier</label>
+                <select class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all cursor-pointer text-slate-600">
+                  <option value="">Pilih supplier utama...</option>
+                  <option value="pt-kimia">PT Kimia Farma Trading</option>
+                  <option value="pt-kalbe">PT Enseval (Kalbe)</option>
+                  <option value="pt-dexa">PT Dexa Medica</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3 rounded-b-2xl">
+            <button class="btn-tutup-modal px-4 py-2 bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 text-sm font-semibold rounded-xl shadow-sm transition-colors">
+              Batal
+            </button>
+            <button class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors">
+              Simpan Obat
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAMBAH / EDIT SUPPLIER -->
+  <div id="modal-supplier" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-supplier-title" role="dialog" aria-modal="true">
+    <div class="modal-backdrop fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity opacity-0 ease-out duration-300"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div class="modal-content relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 ease-out duration-300">
+          
+          <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h3 class="text-lg font-bold text-slate-800" id="modal-supplier-title">Form Data Supplier</h3>
+            <button class="btn-tutup-modal-supplier p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+              <i class="ph ph-x text-lg"></i>
+            </button>
+          </div>
+
+          <div class="px-6 py-6 space-y-4">
+            <div class="space-y-1.5">
+              <label class="text-sm font-semibold text-slate-700">Nama Perusahaan <span class="text-rose-500">*</span></label>
+              <input type="text" placeholder="PT / CV..." class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Kontak Person <span class="text-rose-500">*</span></label>
+                <input type="text" placeholder="Nama PIC..." class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">No. Telepon <span class="text-rose-500">*</span></label>
+                <input type="tel" placeholder="08xx..." class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+              </div>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-semibold text-slate-700">Email</label>
+              <input type="email" placeholder="email@perusahaan.com" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-sm font-semibold text-slate-700">Alamat Lengkap</label>
+              <textarea rows="3" placeholder="Alamat kantor / gudang..." class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all resize-none"></textarea>
+            </div>
+          </div>
+
+          <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3 rounded-b-2xl">
+            <button class="btn-tutup-modal-supplier px-4 py-2 bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 text-sm font-semibold rounded-xl shadow-sm transition-colors">
+              Batal
+            </button>
+            <button class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors">
+              Simpan Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL SUPPLIER -->
+  <div id="modal-detail-supplier" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-detail-title" role="dialog" aria-modal="true">
+    <div class="modal-backdrop fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity opacity-0 ease-out duration-300"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div class="modal-content relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 ease-out duration-300">
+          
+          <!-- Header (Cover Image style) -->
+          <div class="h-24 bg-gradient-to-r from-blue-600 to-emerald-500 relative">
+            <button class="btn-tutup-detail-supplier absolute top-4 right-4 p-2 text-white/70 hover:text-white hover:bg-white/20 rounded-lg transition-colors backdrop-blur-sm">
+              <i class="ph ph-x text-lg"></i>
+            </button>
+          </div>
+
+          <!-- Body Info -->
+          <div class="px-8 pb-8 relative">
+            <!-- Icon Avatar Offset -->
+            <div class="w-20 h-20 bg-white rounded-2xl shadow-md border-4 border-white flex items-center justify-center -mt-10 mb-4 mx-auto sm:mx-0">
+              <div class="w-full h-full bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                <i class="ph-fill ph-buildings text-4xl"></i>
+              </div>
+            </div>
+
+            <div class="text-center sm:text-left mb-6">
+              <h3 class="text-xl font-bold text-slate-800">PT Kimia Farma Trading</h3>
+              <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-medium bg-emerald-50 border border-emerald-200 text-emerald-700">
+                  <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> Status Aktif
+                </span>
+                <span class="text-xs text-slate-500 bg-slate-100 px-2 py-1 rounded-md">Distributor Utama</span>
+              </div>
+            </div>
+
+            <!-- Detail Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-slate-50 rounded-xl p-5 border border-slate-100">
+              <div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Kontak Person</p>
+                <div class="flex items-center gap-2">
+                  <i class="ph ph-user text-slate-400"></i>
+                  <p class="text-sm font-medium text-slate-700">Ahmad Fauzi</p>
+                </div>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">No. Telepon</p>
+                <div class="flex items-center gap-2">
+                  <i class="ph ph-phone text-slate-400"></i>
+                  <p class="text-sm font-medium text-slate-700">0812-3456-7890</p>
+                </div>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Email</p>
+                <div class="flex items-center gap-2">
+                  <i class="ph ph-envelope-simple text-slate-400"></i>
+                  <p class="text-sm font-medium text-slate-700">sales@kimiafarma.co.id</p>
+                </div>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Alamat Lengkap</p>
+                <div class="flex items-start gap-2">
+                  <i class="ph ph-map-pin text-slate-400 mt-0.5"></i>
+                  <p class="text-sm font-medium text-slate-700 leading-relaxed">Jl. Veteran No. 9, Jakarta Pusat, DKI Jakarta 10110</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="mt-6 flex gap-4">
+              <div class="flex-1 bg-white border border-slate-200 rounded-xl p-4 text-center">
+                <p class="text-xs text-slate-500 mb-1">Total PO Selesai</p>
+                <p class="text-xl font-bold text-slate-800">124</p>
+              </div>
+              <div class="flex-1 bg-white border border-slate-200 rounded-xl p-4 text-center">
+                <p class="text-xs text-slate-500 mb-1">Tagihan Berjalan</p>
+                <p class="text-xl font-bold text-rose-600">Rp 12.5M</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAMBAH / EDIT PENGGUNA (USER) -->
+  <div id="modal-user" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-user-title" role="dialog" aria-modal="true">
+    <div class="modal-backdrop fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity opacity-0 ease-out duration-300"></div>
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div class="modal-content relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 ease-out duration-300">
+          
+          <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <h3 class="text-lg font-bold text-slate-800" id="modal-user-title">Tambah Pengguna Baru</h3>
+            <button class="btn-tutup-modal-user p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+              <i class="ph ph-x text-lg"></i>
+            </button>
+          </div>
+
+          <div class="px-6 py-6 space-y-5">
+            <!-- Nama Lengkap -->
+            <div class="space-y-1.5">
+              <label class="text-sm font-semibold text-slate-700">Nama Lengkap <span class="text-rose-500">*</span></label>
+              <div class="relative">
+                <i class="ph ph-user absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="text" placeholder="Masukkan nama..." class="w-full pl-9 pr-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+              </div>
+            </div>
+
+            <!-- Username & Role -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Username <span class="text-rose-500">*</span></label>
+                <input type="text" placeholder="@username" class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+              </div>
+              <div class="space-y-1.5">
+                <label class="text-sm font-semibold text-slate-700">Hak Akses <span class="text-rose-500">*</span></label>
+                <select class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all cursor-pointer text-slate-600">
+                  <option value="kasir">Kasir</option>
+                  <option value="admin">Administrator</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="space-y-1.5">
+              <label class="text-sm font-semibold text-slate-700">Password Sementara <span class="text-rose-500">*</span></label>
+              <div class="relative">
+                <i class="ph ph-lock absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                <input type="password" placeholder="Minimal 8 karakter" class="w-full pl-9 pr-10 py-2.5 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
+                  <i class="ph ph-eye-slash"></i>
+                </button>
+              </div>
+              <p class="text-[11px] text-slate-500">User dapat mengubah password ini setelah login pertama kali.</p>
+            </div>
+            
+            <!-- Toggle Status -->
+            <div class="pt-2 flex items-center justify-between border-t border-slate-100">
+              <div>
+                <p class="text-sm font-semibold text-slate-700">Aktifkan Akun</p>
+                <p class="text-xs text-slate-500">Akun bisa langsung digunakan.</p>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer" checked>
+                <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-500"></div>
+              </label>
+            </div>
+
+          </div>
+
+          <div class="px-6 py-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end gap-3 rounded-b-2xl">
+            <button class="btn-tutup-modal-user px-4 py-2 bg-white border border-slate-200 hover:bg-slate-100 text-slate-600 text-sm font-semibold rounded-xl shadow-sm transition-colors">
+              Batal
+            </button>
+            <button class="px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-semibold rounded-xl shadow-sm shadow-emerald-200 transition-colors">
+              Simpan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript for Interactive Sidebar Menu & Modals -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuButtons = document.querySelectorAll('.menu-btn');
+      
+      // Views
+      const viewDashboard = document.getElementById('view-dashboard');
+      const viewObat = document.getElementById('view-obat');
+      const viewStok = document.getElementById('view-stok');
+      const viewSupplier = document.getElementById('view-supplier');
+      const viewLaporan = document.getElementById('view-laporan');
+      const viewUsers = document.getElementById('view-users');
+      const viewPengaturan = document.getElementById('view-pengaturan');
+      const viewProfilAdmin = document.getElementById('view-profil-admin');
+      
+      // Modals
+      const modalObat = document.getElementById('modal-obat');
+      const btnTambahObat = document.getElementById('btn-tambah-obat');
+      const btnTutupModalObat = document.querySelectorAll('.btn-tutup-modal');
+
+      const modalSupplier = document.getElementById('modal-supplier');
+      const btnTambahSupplier = document.getElementById('btn-tambah-supplier');
+      const btnTutupModalSupplier = document.querySelectorAll('.btn-tutup-modal-supplier');
+
+      const modalDetailSupplier = document.getElementById('modal-detail-supplier');
+      const btnListDetailSupplier = document.querySelectorAll('.btn-detail-supplier');
+      const btnTutupDetailSupplier = document.querySelectorAll('.btn-tutup-detail-supplier');
+
+      const modalUser = document.getElementById('modal-user');
+      const btnTambahUser = document.getElementById('btn-tambah-user');
+      const btnTutupModalUser = document.querySelectorAll('.btn-tutup-modal-user');
+
+      // 1. Fungsi Ganti Halaman (Routing Sederhana)
+      function switchView(menuName) {
+        // Sembunyikan semua view terlebih dahulu
+        viewDashboard.classList.add('hidden');
+        viewObat.classList.add('hidden');
+        viewStok.classList.add('hidden');
+        viewSupplier.classList.add('hidden');
+        viewLaporan.classList.add('hidden');
+        viewUsers.classList.add('hidden');
+        viewPengaturan.classList.add('hidden');
+        if(viewProfilAdmin) viewProfilAdmin.classList.add('hidden');
+
+        // Tampilkan view yang sesuai
+        if (menuName === 'Dashboard') {
+          viewDashboard.classList.remove('hidden');
+        } else if (menuName === 'Manajemen Obat') {
+          viewObat.classList.remove('hidden');
+        } else if (menuName === 'Stok & Kadaluarsa') {
+          viewStok.classList.remove('hidden');
+        } else if (menuName === 'Supplier') {
+          viewSupplier.classList.remove('hidden');
+        } else if (menuName === 'Laporan') {
+          viewLaporan.classList.remove('hidden');
+        } else if (menuName === 'User Management') {
+          viewUsers.classList.remove('hidden');
+        } else if (menuName === 'Pengaturan') {
+          viewPengaturan.classList.remove('hidden');
+        } else if (menuName === 'Profil Admin') {
+          if(viewProfilAdmin) viewProfilAdmin.classList.remove('hidden');
+        }
+      }
+
+      menuButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Reset styling for all buttons
+          menuButtons.forEach(b => {
+            b.classList.remove('bg-emerald-50', 'text-emerald-700', 'font-medium', 'shadow-sm');
+            b.classList.add('text-slate-500', 'hover:bg-slate-50', 'hover:text-slate-700');
+            
+            const icon = b.querySelector('.icon-ph');
+            icon.classList.remove('text-emerald-600');
+            icon.classList.add('text-slate-400');
+            
+            const dot = b.querySelector('.active-dot');
+            if(dot) dot.classList.add('hidden');
+          });
+          
+          // Apply active styling to clicked button
+          btn.classList.add('bg-emerald-50', 'text-emerald-700', 'font-medium', 'shadow-sm');
+          btn.classList.remove('text-slate-500', 'hover:bg-slate-50', 'hover:text-slate-700');
+          
+          const icon = btn.querySelector('.icon-ph');
+          icon.classList.add('text-emerald-600');
+          icon.classList.remove('text-slate-400');
+          
+          const dot = btn.querySelector('.active-dot');
+          if(dot) dot.classList.remove('hidden');
+
+          // Panggil fungsi ganti halaman berdasarkan teks tombol
+          const menuName = btn.querySelector('span').innerText.trim();
+          switchView(menuName);
+        });
+      });
+
+      // 2. Helper Animasi Modal
+      function openModal(modalEl) {
+        modalEl.classList.remove('hidden');
+        void modalEl.offsetWidth; // Force reflow
+        modalEl.querySelector('.modal-backdrop').classList.replace('opacity-0', 'opacity-100');
+        const content = modalEl.querySelector('.modal-content');
+        content.classList.replace('opacity-0', 'opacity-100');
+        content.classList.replace('translate-y-4', 'translate-y-0');
+        content.classList.replace('sm:scale-95', 'sm:scale-100');
+      }
+
+      function closeModal(modalEl) {
+        modalEl.querySelector('.modal-backdrop').classList.replace('opacity-100', 'opacity-0');
+        const content = modalEl.querySelector('.modal-content');
+        content.classList.replace('opacity-100', 'opacity-0');
+        content.classList.replace('translate-y-0', 'translate-y-4');
+        content.classList.replace('sm:scale-100', 'sm:scale-95');
+        setTimeout(() => modalEl.classList.add('hidden'), 300);
+      }
+
+      // 3. Event Listeners Modal
+      
+      // Modal Obat
+      if (btnTambahObat) btnTambahObat.addEventListener('click', () => openModal(modalObat));
+      btnTutupModalObat.forEach(btn => btn.addEventListener('click', () => closeModal(modalObat)));
+
+      // Modal Form Supplier
+      if (btnTambahSupplier) btnTambahSupplier.addEventListener('click', () => openModal(modalSupplier));
+      btnTutupModalSupplier.forEach(btn => btn.addEventListener('click', () => closeModal(modalSupplier)));
+
+      // Modal Detail Supplier
+      btnListDetailSupplier.forEach(btn => {
+        btn.addEventListener('click', () => openModal(modalDetailSupplier));
+      });
+      btnTutupDetailSupplier.forEach(btn => btn.addEventListener('click', () => closeModal(modalDetailSupplier)));
+
+      // Modal User
+      if (btnTambahUser) btnTambahUser.addEventListener('click', () => openModal(modalUser));
+      btnTutupModalUser.forEach(btn => btn.addEventListener('click', () => closeModal(modalUser)));
+
+      // Tombol Profil Saya (dari dropdown)
+      const btnMenuProfil = document.getElementById('btn-menu-profil');
+      if (btnMenuProfil) {
+        btnMenuProfil.addEventListener('click', () => {
+          // Sembunyikan dropdown profil
+          document.getElementById('panel-profile').classList.add('hidden');
+          
+          // Hapus status active dari semua menu sidebar karena kita berpindah ke halaman di luar menu sidebar
+          menuButtons.forEach(b => {
+            b.classList.remove('bg-emerald-50', 'text-emerald-700', 'font-medium', 'shadow-sm');
+            b.classList.add('text-slate-500', 'hover:bg-slate-50', 'hover:text-slate-700');
+            const icon = b.querySelector('.icon-ph');
+            if (icon) {
+              icon.classList.remove('text-emerald-600');
+              icon.classList.add('text-slate-400');
+            }
+            const dot = b.querySelector('.active-dot');
+            if (dot) dot.classList.add('hidden');
+          });
+          
+          switchView('Profil Admin');
+        });
+      }
+
+      // 4. Logic Dropdown (Notifikasi, Profil, Tanggal)
+      function setupDropdown(btnId, panelId, wrapperId) {
+        const btn = document.getElementById(btnId);
+        const panel = document.getElementById(panelId);
+        const wrapper = document.getElementById(wrapperId);
+
+        if (!btn || !panel || !wrapper) return;
+
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation(); 
+          // Tutup dropdown lain jika ada agar layar tidak penuh
+          const allPanels = ['panel-notif', 'panel-profile', 'panel-date'];
+          allPanels.forEach(id => {
+            if (id !== panelId) {
+              const p = document.getElementById(id);
+              if (p && !p.classList.contains('hidden')) p.classList.add('hidden');
+            }
+          });
+          
+          // Toggle dropdown yang ditekan
+          panel.classList.toggle('hidden');
+        });
+
+        // Click-away listener (Klik diluar dropdown akan menutup dropdownnya)
+        document.addEventListener('click', (e) => {
+          if (!wrapper.contains(e.target)) {
+            panel.classList.add('hidden');
+          }
+        });
+      }
+
+      setupDropdown('btn-notif', 'panel-notif', 'dropdown-wrapper-notif');
+      setupDropdown('btn-profile', 'panel-profile', 'dropdown-wrapper-profile');
+      setupDropdown('btn-date', 'panel-date', 'dropdown-wrapper-date');
+
+    });
+  </script>
+</body>
+</html>
