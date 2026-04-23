@@ -137,26 +137,86 @@
           </div>
 
           <div class="px-4 sm:p-5 pt-3">
-            <div class="mb-4">
+            <div class="mb-6">
               <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Metode Pembayaran</p>
               <div class="grid grid-cols-2 gap-2">
-                <button type="button" class="pay-method-btn active flex flex-col items-center justify-center p-2 rounded-xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 transition-all" data-method="Tunai">
-                  <i class="ph ph-money text-lg mb-1"></i>
+                <button type="button" class="pay-method-btn active flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-700 transition-all shadow-sm" data-method="Tunai">
+                  <i class="ph ph-money text-xl mb-1"></i>
                   <span class="text-[10px] font-bold">Tunai</span>
                 </button>
-                <button type="button" class="pay-method-btn flex flex-col items-center justify-center p-2 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 transition-all" data-method="QRIS">
-                  <i class="ph ph-qr-code text-lg mb-1"></i>
+                <button type="button" class="pay-method-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 transition-all" data-method="QRIS">
+                  <i class="ph ph-qr-code text-xl mb-1"></i>
                   <span class="text-[10px] font-bold">QRIS</span>
                 </button>
-                <button type="button" class="pay-method-btn flex flex-col items-center justify-center p-2 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 transition-all" data-method="Transfer Bank">
-                  <i class="ph ph-bank text-lg mb-1"></i>
+                <button type="button" class="pay-method-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 transition-all" data-method="Transfer Bank">
+                  <i class="ph ph-bank text-xl mb-1"></i>
                   <span class="text-[10px] font-bold">Transfer</span>
                 </button>
-                <button type="button" class="pay-method-btn flex flex-col items-center justify-center p-2 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 transition-all" data-method="Kartu Debit">
-                  <i class="ph ph-credit-card text-lg mb-1"></i>
+                <button type="button" class="pay-method-btn flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200 transition-all" data-method="Kartu Debit">
+                  <i class="ph ph-credit-card text-xl mb-1"></i>
                   <span class="text-[10px] font-bold">Debit</span>
                 </button>
               </div>
+            </div>
+
+            <!-- Detail Pembayaran Khusus -->
+            <div id="payment-details-container" class="mb-6 hidden">
+                <!-- QRIS Detail -->
+                <div id="detail-qris" class="hidden animate-[fade-in_0.3s_ease-out]">
+                    <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-4 flex flex-col items-center text-center">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Scan QRIS Untuk Bayar</p>
+                        <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-100 mb-3">
+                            <img src="{{ asset('qris_mockup.png') }}" alt="QRIS QR Code" class="w-32 h-32 object-contain">
+                        </div>
+                        <p class="text-xs font-semibold text-slate-500">Apotek Sejahtera - Merchant ID: 1029384</p>
+                    </div>
+                </div>
+
+                <!-- Transfer Detail -->
+                <div id="detail-transfer" class="hidden animate-[fade-in_0.3s_ease-out]">
+                    <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4">
+                        <p class="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-3">Rekening Pembayaran</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-blue-100">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-5 bg-blue-600 rounded flex items-center justify-center text-[8px] text-white font-bold">BCA</div>
+                                    <span class="text-xs font-bold text-slate-700">1234567890</span>
+                                </div>
+                                <button class="text-[10px] font-bold text-blue-600 hover:bg-blue-50 px-2 py-1 rounded">Salin</button>
+                            </div>
+                            <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-blue-100">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-5 bg-emerald-600 rounded flex items-center justify-center text-[8px] text-white font-bold">BNI</div>
+                                    <span class="text-xs font-bold text-slate-700">0987654321</span>
+                                </div>
+                                <button class="text-[10px] font-bold text-blue-600 hover:bg-blue-50 px-2 py-1 rounded">Salin</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Debit Detail -->
+                <div id="detail-debit" class="hidden animate-[fade-in_0.3s_ease-out]">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-3">Informasi Kartu</p>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">Pilih Mesin EDC</label>
+                                <select class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-emerald-500">
+                                    <option>BCA EDC - 01</option>
+                                    <option>MANDIRI EDC - 02</option>
+                                    <option>BRI EDC - 03</option>
+                                </select>
+                            </div>
+                            <div class="flex gap-2">
+                                <div class="flex-1">
+                                    <label class="text-[10px] font-bold text-slate-400 uppercase mb-1 block">No. Reff / Trace</label>
+                                    <input type="text" placeholder="000000" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold focus:outline-none focus:border-emerald-500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Bayar</p>
@@ -530,6 +590,11 @@
       document.getElementById('subtotal-val').innerText = formatRp(subtotal);
       document.getElementById('tax-val').innerText = formatRp(tax);
       document.getElementById('total-val').innerText = formatRp(currentTotal);
+      
+      if (selectedPaymentMethod !== 'Tunai' && currentTotal > 0) {
+        inputBayar.value = currentTotal;
+      }
+      
       calculateChange();
     }
 
@@ -581,16 +646,44 @@
     // Payment Method Selection
     let selectedPaymentMethod = 'Tunai';
     const payMethodBtns = document.querySelectorAll('.pay-method-btn');
+    const paymentDetailsContainer = document.getElementById('payment-details-container');
+    const detailQris = document.getElementById('detail-qris');
+    const detailTransfer = document.getElementById('detail-transfer');
+    const detailDebit = document.getElementById('detail-debit');
 
     payMethodBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         payMethodBtns.forEach(b => {
-          b.classList.remove('active', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+          b.classList.remove('active', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700', 'shadow-sm');
           b.classList.add('border-slate-100', 'bg-slate-50', 'text-slate-500');
         });
-        btn.classList.add('active', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+        btn.classList.add('active', 'border-emerald-500', 'bg-emerald-50', 'text-emerald-700', 'shadow-sm');
         btn.classList.remove('border-slate-100', 'bg-slate-50', 'text-slate-500');
         selectedPaymentMethod = btn.dataset.method;
+
+        // Reset details
+        paymentDetailsContainer.classList.add('hidden');
+        detailQris.classList.add('hidden');
+        detailTransfer.classList.add('hidden');
+        detailDebit.classList.add('hidden');
+
+        // Show specific detail & handle auto-fill bayar
+        if (selectedPaymentMethod !== 'Tunai') {
+          paymentDetailsContainer.classList.remove('hidden');
+          inputBayar.value = currentTotal; // Auto-fill total for non-cash
+          inputBayar.readOnly = true;
+          inputBayar.classList.add('opacity-50');
+          
+          if (selectedPaymentMethod === 'QRIS') detailQris.classList.remove('hidden');
+          if (selectedPaymentMethod === 'Transfer Bank') detailTransfer.classList.remove('hidden');
+          if (selectedPaymentMethod === 'Kartu Debit') detailDebit.classList.remove('hidden');
+        } else {
+          inputBayar.value = '';
+          inputBayar.readOnly = false;
+          inputBayar.classList.remove('opacity-50');
+        }
+        
+        calculateChange();
       });
     });
 
