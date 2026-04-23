@@ -30,7 +30,7 @@
     }
   </script>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 h-screen w-full overflow-hidden flex flex-col selection:bg-emerald-200">
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen md:h-screen w-full overflow-x-hidden overflow-y-auto md:overflow-hidden flex flex-col selection:bg-emerald-200">
 
   <!-- TOP NAVBAR -->
   <header class="bg-white border-b border-slate-200 h-16 shrink-0 flex items-center justify-between px-4 sm:px-6 z-20">
@@ -81,7 +81,7 @@
     <!-- VIEW 1: TRANSAKSI -->
     <div id="view-transaksi" class="w-full h-full flex relative overflow-hidden">
       <!-- LEFT PANEL: KATALOG OBAT -->
-      <section id="panel-produk" class="flex-1 flex flex-col w-full h-full pb-16 md:pb-0 z-10 transition-transform duration-300">
+      <section id="panel-produk" class="flex-1 flex flex-col w-full h-full pb-16 md:pb-0 z-10 transition-transform duration-300 overflow-y-auto md:overflow-hidden">
         
         <!-- Search & Filter Bar -->
         <div class="p-4 sm:p-6 pb-2 shrink-0 space-y-4 bg-slate-50">
@@ -111,7 +111,7 @@
       </section>
 
       <!-- RIGHT PANEL: KERANJANG -->
-      <section id="panel-keranjang" class="absolute inset-0 h-full bg-white md:relative md:flex flex-col w-full md:w-[400px] lg:w-[450px] border-l border-slate-200 shadow-[-10px_0_30px_rgba(0,0,0,0.02)] z-20 transform translate-x-full md:translate-x-0 transition-transform duration-300 pb-16 md:pb-0">
+      <section id="panel-keranjang" class="absolute inset-0 h-full bg-white md:relative md:flex flex-col w-full md:w-[400px] lg:w-[450px] border-l border-slate-200 shadow-[-10px_0_30px_rgba(0,0,0,0.02)] z-20 transform translate-x-full md:translate-x-0 transition-transform duration-300 pb-16 md:pb-0 overflow-y-auto md:overflow-hidden">
         <div class="h-16 px-5 border-b border-slate-100 flex items-center justify-between bg-white shrink-0">
           <div class="flex items-center gap-2">
             <i class="ph-fill ph-shopping-cart text-emerald-500 text-xl"></i>

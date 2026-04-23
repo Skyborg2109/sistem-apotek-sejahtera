@@ -30,7 +30,7 @@
     }
   </style>
 </head>
-<body class="bg-slate-900 font-sans text-slate-800 min-h-screen flex items-center justify-center relative overflow-hidden py-10 selection:bg-emerald-200">
+<body class="bg-slate-900 font-sans text-slate-800 min-h-screen flex items-center justify-center relative overflow-y-auto py-10 selection:bg-emerald-200">
 
   <!-- Background Image with Overlay -->
   <div class="fixed inset-0 z-0">
