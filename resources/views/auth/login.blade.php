@@ -30,11 +30,14 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex items-center justify-center relative overflow-y-auto py-10 selection:bg-emerald-200">
+<body class="bg-slate-900 font-sans text-slate-800 min-h-screen flex items-center justify-center relative overflow-hidden py-10 selection:bg-emerald-200">
 
-  <!-- Dekorasi Background (Abstract Blurred Blobs) -->
-  <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-400/20 rounded-full blur-[80px] pointer-events-none"></div>
-  <div class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-400/20 rounded-full blur-[80px] pointer-events-none"></div>
+  <!-- Background Image with Overlay -->
+  <div class="fixed inset-0 z-0">
+    <img src="{{ asset('pharmacy_login_bg_1776941605890.png') }}" alt="Background" class="w-full h-full object-cover scale-105 animate-[pulse_10s_infinite_alternate]">
+    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"></div>
+    <div class="absolute inset-0 bg-gradient-to-tr from-slate-900 via-transparent to-emerald-900/20"></div>
+  </div>
 
   <!-- Login Container -->
   <div class="w-full max-w-[420px] px-6 relative z-10 animate-[fade-in_0.5s_ease-out]">
@@ -53,12 +56,14 @@
                 <i class="ph ph-activity text-white text-4xl"></i>
             </div>
         @endif
-        <h1 class="text-2xl font-bold text-slate-800 tracking-tight mb-1">{{ \App\Models\Setting::getValue('app_name', 'Apotek Sejahtera') }}</h1>
-        <p class="text-sm text-slate-500">Sistem Manajemen & Kasir Terpadu</p>
+        <h1 class="text-2xl font-bold text-white tracking-tight mb-1">{{ \App\Models\Setting::getValue('app_name', 'Apotek Sejahtera') }}</h1>
+        <p class="text-sm text-slate-300">Sistem Manajemen & Kasir Terpadu</p>
     </div>
 
     <!-- Login Card -->
-    <div class="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl shadow-slate-200/50 border border-white p-8 ">
+    <div class="bg-white/95 backdrop-blur-2xl rounded-[2.5rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.25)] border border-white/50 p-10 relative overflow-hidden">
+      <!-- Decorative element inside card -->
+      <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
       <div class="mb-8 text-center">
         <h2 class="text-xl font-bold text-slate-800">Selamat Datang</h2>
         <p class="text-sm text-slate-500 mt-1">Silakan masuk ke akun Anda.</p>
@@ -130,22 +135,22 @@
       </form>
 
       <!-- Mockup Navigation Helpers (Optional) -->
-      <div class="mt-8 pt-6 border-t border-slate-100/60 text-center">
-        <p class="text-xs text-slate-400 mb-3 font-medium">Akses Cepat (Demo):</p>
-        <div class="flex flex-col gap-2">
-          <div class="px-3 py-1.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-lg border border-slate-200 uppercase tracking-tighter">
-            Admin: budisantoso / password
+      <div class="mt-8 pt-6 border-t border-slate-100 text-center">
+        <p class="text-[10px] text-slate-400 mb-3 font-bold uppercase tracking-widest">Akses Cepat (Demo):</p>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="px-3 py-2 bg-slate-50 text-slate-600 text-[10px] font-bold rounded-xl border border-slate-200/60 transition-all hover:bg-emerald-50 hover:border-emerald-200 cursor-default">
+            Admin: budisantoso
           </div>
-          <div class="px-3 py-1.5 bg-slate-100 text-slate-500 text-[10px] font-bold rounded-lg border border-slate-200 uppercase tracking-tighter">
-            Kasir: sitirahma / password
+          <div class="px-3 py-2 bg-slate-50 text-slate-600 text-[10px] font-bold rounded-xl border border-slate-200/60 transition-all hover:bg-emerald-50 hover:border-emerald-200 cursor-default">
+            Kasir: sitirahma
           </div>
         </div>
       </div>
 
     </div>
     
-    <p class="text-center text-xs text-slate-400 mt-8">
-      &copy; 2026 Apotek Sejahtera. All rights reserved.
+    <p class="text-center text-xs text-slate-300 mt-8">
+      &copy; 2026 {{ \App\Models\Setting::getValue('app_name', 'Apotek Sejahtera') }}. All rights reserved.
     </p>
   </div>
 
